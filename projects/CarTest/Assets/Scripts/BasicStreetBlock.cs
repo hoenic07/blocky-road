@@ -18,14 +18,16 @@ namespace Assets.Scripts
             return GameObject.transform;
         }
 
-        public virtual void SnapLeft(Transform refObj)
+        public virtual void SnapLeft(float yOther, float rightOther)
         {
-
+            var x = rightOther - GameObject.transform.lossyScale.x / 2;
+            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
         }
 
-        public virtual void SnapRight(Transform refObj)
+        public virtual void SnapRight(float yOther, float leftOther)
         {
-
+            var x = leftOther + GameObject.transform.lossyScale.x / 2;
+            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
         }
 
     }
@@ -37,14 +39,16 @@ namespace Assets.Scripts
             return GameObject.transform.GetChild(0);
         }
 
-        public override void SnapLeft(Transform refObj)
+        public override void SnapLeft(float yOther, float rightOther)
         {
-
+            var x = rightOther - GetReferenceForSnapping().lossyScale.x / 2;
+            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
         }
 
-        public override void SnapRight(Transform refObj)
+        public override void SnapRight(float yOther, float leftOther)
         {
-            base.SnapRight(refObj);
+            var x = leftOther + GetReferenceForSnapping().lossyScale.x / 2;
+            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
         }
     }
 }

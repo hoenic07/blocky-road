@@ -54,48 +54,56 @@ public class Editable : MonoBehaviour
 
         var creator = this.creator;
         var editorObject = this.editorObject;
+        var editable = this;
         if (creator == null)
         {
             var c = gameObject.transform.parent.gameObject.GetComponent<Editable>();
             creator = c.creator;
             editorObject = c.editorObject;
+            editable = c;
         }
+        if (creator == null) return;
 
-        if (isEditable && creator !=null && creator.isRemovingBlock)
+        if (isEditable && creator.isRemovingBlock)
         {
             creator.RemoveObject(editorObject);
+        }
+        else if (isEditable)
+        {
+            if (creator.currentEditing != null) creator.currentEditing.isEditing = false;
+            editable.isEditing = true;
+            creator.currentEditing = editable;
         }
     }
 
     void TrySnap()
     {
         var t = editorObject.GetReferenceForSnapping();
-        var leftCur = t.position.x + t.localScale.x / 2;
-        var rightCur = t.position.x - t.localScale.x / 2;
+        var leftCur = t.position.x + t.lossyScale.x / 2;
+        var rightCur = t.position.x - t.lossyScale.x / 2;
         var y = t.position.y;
 
         Debug.Log("Try snap");
 
-        foreach (var eo in creator.createdStreets)
+        foreach (var eo in creator.streetBlocks)
         {
             var otherT = eo.GetReferenceForSnapping();
             if (eo.GameObject == this) continue;
 
-            var rightOther = otherT.position.x - otherT.localScale.x / 2;
-            var leftOther = otherT.position.x + otherT.localScale.x / 2;
+            var rightOther = otherT.position.x - otherT.lossyScale.x / 2;
+            var leftOther = otherT.position.x + otherT.lossyScale.x / 2;
             var yOther = otherT.position.y;
 
             if (Mathf.Abs(rightOther - leftCur) <= snapArea && Mathf.Abs(yOther-y) <= snapArea)
             {
-                var x = rightOther - transform.localScale.x / 2;
-                transform.position = new Vector3(x, yOther, transform.position.z);
+                editorObject.SnapLeft(yOther, rightOther);
+                Debug.Log("Snap!");
                 return;
             }
 
             if (Mathf.Abs(leftOther - rightCur) <= snapArea && Mathf.Abs(yOther - y) <= snapArea)
             {
-                var x = leftOther + transform.localScale.x / 2;
-                transform.position = new Vector3(x, yOther, transform.position.z);
+                editorObject.SnapRight(yOther, leftOther);
                 Debug.Log("Snap!");
                 return;
             }

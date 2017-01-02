@@ -15,10 +15,11 @@ public class Main : MonoBehaviour {
     #endregion
 
     #region Members
-    public List<BasicStreetBlock> createdStreets;
+    public List<BasicStreetBlock> streetBlocks;
     public List<GameObject> staticBlocks;
     private Level level;
     private GameObject editPanel;
+    private GameObject finishedMessage;
     #endregion
 
     #region Game State
@@ -28,12 +29,14 @@ public class Main : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        createdStreets = new List<BasicStreetBlock>();
+        streetBlocks = new List<BasicStreetBlock>();
         var lvls = LevelLoader.GetAllLevelMeta();
         InitLevel(lvls[0]);
         SetUpListeners();
         SetStartResetText();
         editPanel = GameObject.Find("EditPanel");
+        finishedMessage = GameObject.Find("FinishedPanel");
+        finishedMessage.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -54,9 +57,10 @@ public class Main : MonoBehaviour {
             if(ed) ed.isEditable = false;
             if (block.isStart)
             {
-                go = Instantiate(carPrefab, new Vector3(block.x, block.y + 1), Quaternion.identity);
-                go.transform.Rotate(0, 270, 0);
+                var car = Instantiate(carPrefab, new Vector3(block.x, block.y + 1), Quaternion.identity);
+                car.transform.Rotate(0, 270, 0);
             }
+            streetBlocks.Add(StreetBlockFactory.CreateStreetBlock(block.type, go));
             staticBlocks.Add(go);
         }
 
@@ -88,6 +92,8 @@ public class Main : MonoBehaviour {
         });
     }
 
+    #region Remove Block
+
     public void StartRemoving()
     {
         isRemovingBlock = true;
@@ -100,11 +106,9 @@ public class Main : MonoBehaviour {
         isRemovingBlock = false;
     }
 
-    #region Remove Block
-
     public void RemoveObject(BasicStreetBlock block)
     {
-        createdStreets.Remove(block);
+        streetBlocks.Remove(block);
         DestroyObject(block.GameObject);
         level.editorBlocks.First(d => d.type == block.Type).ChangeCount(1);
         CancelRemoving();
@@ -164,13 +168,18 @@ public class Main : MonoBehaviour {
             ed.creator = this;
             currentEditing = ed;
             ed.editorObject = eo;
-            createdStreets.Add(eo);
+            streetBlocks.Add(eo);
         }
         else
         {
             //TODO: Play error sound?
         }
     }
-    
+
+    public void ShowFinished()
+    {
+        GameObject.Find("StartReset").SetActive(false);
+        finishedMessage.SetActive(true);
+    }
 }
 

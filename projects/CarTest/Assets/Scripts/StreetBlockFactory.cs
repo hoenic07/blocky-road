@@ -11,15 +11,19 @@ namespace Assets.Scripts
     public enum BlockType { Invalid=0, Street=1, Jump=2, Speed=3, Finish=4 }
     public class StreetBlockFactory
     {
-        public static BasicStreetBlock CreateStreetBlock(BlockType bt)
+        public static BasicStreetBlock CreateStreetBlock(BlockType bt, GameObject go=null)
         {
-            var prefab = LoadPrefabByType(bt);
-            var go = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            if (go == null)
+            {
+                var prefab = LoadPrefabByType(bt);
+                go = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            }
 
             switch (bt)
             {
                 case BlockType.Street:
                 case BlockType.Speed:
+                case BlockType.Finish:
                     return new BasicStreetBlock { GameObject = go, Type = bt };
                 case BlockType.Jump:
                     return new JumpStreetBlock { GameObject = go, Type = bt };
