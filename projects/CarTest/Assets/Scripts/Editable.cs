@@ -10,7 +10,7 @@ public class Editable : MonoBehaviour
     public bool isEditable = true;
     public bool isEditing = false;
     public float changePerPress = 0.2f;
-    private float snapArea = 0.6f;
+    private float snapArea = 1f;
     public BasicStreetBlock editorObject;
 
     public Main creator;
@@ -25,23 +25,23 @@ public class Editable : MonoBehaviour
 	void Update () {
         if (isEditing)
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
             {
-                transform.position += new Vector3(changePerPress, 0, 0);
+                Left();
             }
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKeyUp(KeyCode.RightArrow))
             {
-                transform.position += new Vector3(-changePerPress, 0,0);
+                Right();
             }
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKeyUp(KeyCode.UpArrow))
             {
-                transform.position += new Vector3(0, changePerPress);
+                Up();
             }
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKeyUp(KeyCode.DownArrow))
             {
-                transform.position += new Vector3(0, -changePerPress);
+                Down();
             }
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKeyUp(KeyCode.Z))
             {
                 TrySnap();
             }            
@@ -76,7 +76,7 @@ public class Editable : MonoBehaviour
         }
     }
 
-    void TrySnap()
+    public void TrySnap()
     {
         var t = editorObject.GetReferenceForSnapping();
         var leftCur = t.position.x + t.lossyScale.x / 2;
@@ -111,5 +111,25 @@ public class Editable : MonoBehaviour
         }
 
         Debug.Log("nothing found");
+    }
+
+    public void Left()
+    {
+        transform.position += new Vector3(changePerPress, 0, 0);
+    }
+
+    public void Right()
+    {
+        transform.position += new Vector3(-changePerPress, 0, 0);
+    }
+
+    public void Up()
+    {
+        transform.position += new Vector3(0, changePerPress);
+    }
+
+    public void Down()
+    {
+        transform.position += new Vector3(0, -changePerPress);
     }
 }
