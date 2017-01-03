@@ -22,6 +22,7 @@ public class Speedable : MonoBehaviour {
         if (collision.gameObject.GetComponent<Car>()!=null)
         {
             Debug.Log("apply speed!");
+            GetComponentInChildren<AudioSource>().Play();
             var rb = collision.gameObject.GetComponent<Rigidbody>();
             rb.AddForce(new Vector3(-speedUp,0 , 0));
 

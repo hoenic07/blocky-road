@@ -21,6 +21,7 @@ public class FinishDetector : MonoBehaviour {
         {
             Debug.Log("finished");
             FindObjectOfType<Main>().ShowFinished();
+            GetComponentInChildren<AudioSource>().Play();
         }
     }
 }

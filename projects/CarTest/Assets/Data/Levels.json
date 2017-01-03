@@ -5,8 +5,24 @@
             "name": "Level 1"
         },
         {
-            "id": 2,
+            "id": 1,
             "name": "Level 2"
+        },
+        {
+            "id": 1,
+            "name": "Level 3"
+        },
+        {
+            "id": 1,
+            "name": "Level 4"
+        },
+        {
+            "id": 1,
+            "name": "Level 5"
+        },
+        {
+            "id": 1,
+            "name": "Level 6"
         }
     ]
 }

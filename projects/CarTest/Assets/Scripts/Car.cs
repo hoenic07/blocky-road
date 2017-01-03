@@ -19,6 +19,7 @@ public class Car : MonoBehaviour
     public void ApplyStartForce()
     {
         if (isStarted) return;
+        FindObjectOfType<AudioSource>().Play();
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         Debug.Log("Force!");
         rb.AddForce(new Vector3(-300, 0, 0));

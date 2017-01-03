@@ -27,11 +27,14 @@ public class Main : MonoBehaviour {
     public bool isRemovingBlock = false;
     #endregion
 
+    #region Parameters
+    public static LevelMeta levelMeta;
+    #endregion
+
     // Use this for initialization
     void Start () {
         streetBlocks = new List<BasicStreetBlock>();
-        var lvls = LevelLoader.GetAllLevelMeta();
-        InitLevel(lvls[0]);
+        InitLevel(levelMeta);
         SetUpListeners();
         SetStartResetText();
         editPanel = GameObject.Find("EditPanel");

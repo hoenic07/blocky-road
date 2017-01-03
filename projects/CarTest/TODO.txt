@@ -1,15 +1,15 @@
 TODO Augmented Reality
 
 + Logo und Name
-- Menu
- - Layout
- - Levels laden
++ Menu
+ + Layout
+ + Levels laden
 - Levels
  - Min 3 Levels erstellen
  + Levels speichern + laden
 - Editor
  + Remove button für elemente
- - Elemente auswählen
+ + Elemente auswählen
  - Elemente nicht überlappend
  - UI für Aktionen
  + Auswahlliste mit verbleibenden elementen 
