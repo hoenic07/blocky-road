@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Speedable : MonoBehaviour {
 
-    public float speedUp = 1000.0f;
+    private float speedUp = 700.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,15 +16,15 @@ public class Speedable : MonoBehaviour {
 		
 	}
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Speed!" + collision.gameObject.name);
+        Debug.Log("Speed! " + collision.gameObject);
         if (collision.gameObject.GetComponent<Car>()!=null)
         {
             Debug.Log("apply speed!");
             GetComponentInChildren<AudioSource>().Play();
             var rb = collision.gameObject.GetComponent<Rigidbody>();
-            rb.AddForce(new Vector3(-speedUp,0 , 0));
+            rb.AddForce(new Vector3(-speedUp*Main.globalScale,0 , 0));
 
         }
     }

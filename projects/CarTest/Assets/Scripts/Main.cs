@@ -19,12 +19,15 @@ public class Main : MonoBehaviour {
     public List<GameObject> staticBlocks;
     private Level level;
     private GameObject editPanel;
+    private GameObject actionPanel;
     private GameObject finishedMessage;
+    public static float globalScale = 0.006f;
     #endregion
 
     #region Game State
     private bool isEditing = true;
     public bool isRemovingBlock = false;
+    private bool isFinished = false;
     #endregion
 
     #region Parameters
@@ -33,11 +36,18 @@ public class Main : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        globalScale = 0.006f;
+        Physics.gravity = new Vector3(0, -9.81f * globalScale, 0);
         streetBlocks = new List<BasicStreetBlock>();
+        if (levelMeta == null)
+        {
+            levelMeta = LevelLoader.GetAllLevelMeta()[0];
+        }
         InitLevel(levelMeta);
         SetUpListeners();
         SetStartResetText();
         editPanel = GameObject.Find("EditPanel");
+        actionPanel = GameObject.Find("ActionPanel");
         finishedMessage = GameObject.Find("FinishedPanel");
         finishedMessage.SetActive(false);
     }
@@ -55,12 +65,13 @@ public class Main : MonoBehaviour {
         {
             var prefab = StreetBlockFactory.LoadPrefabByType(block.type);
             var go = Instantiate(prefab, new Vector3(block.x, block.y), Quaternion.identity);
-
+            go.transform.SetParent(gameObject.transform, false);
             var ed = go.GetComponentInChildren<Editable>();
             if(ed) ed.isEditable = false;
             if (block.isStart)
             {
-                var car = Instantiate(carPrefab, new Vector3(block.x, block.y + 1), Quaternion.identity);
+                var car = Instantiate(carPrefab, new Vector3(block.x, block.y + 0.41f), Quaternion.identity);
+                car.transform.SetParent(gameObject.transform, false);
                 car.transform.Rotate(0, 270, 0);
             }
             streetBlocks.Add(StreetBlockFactory.CreateStreetBlock(block.type, go));
@@ -72,8 +83,8 @@ public class Main : MonoBehaviour {
         foreach (var block in lvl.editorBlocks)
         {
             var go = StreetBlockFactory.LoadEditBlockByType(block);
-            go.transform.position = parent.transform.position + new Vector3(0, i * 110);
-            go.transform.SetParent(parent.transform, true);
+            go.transform.position = new Vector3(60, i * -100 - 65);
+            go.transform.SetParent(parent.transform, false);
             i++;
         }
     }
@@ -83,7 +94,13 @@ public class Main : MonoBehaviour {
         var srBt = GameObject.Find("StartReset").GetComponent<Button>();
         srBt.onClick.AddListener(() =>
         {
-            if (isEditing) StartRun();
+            if (isFinished)
+            {
+                finishedMessage.SetActive(false);
+                Reset();
+                StartRun();
+            }
+            else if (isEditing) StartRun();
             else Reset();
         });
         var rmBt = GameObject.Find("RemoveBlock").GetComponent<Button>();
@@ -128,6 +145,7 @@ public class Main : MonoBehaviour {
         var c = FindObjectOfType<Car>();
         c.ApplyStartForce();
         editPanel.SetActive(false);
+        actionPanel.SetActive(false);
     }
 
     public void Reset()
@@ -137,9 +155,11 @@ public class Main : MonoBehaviour {
         var c = FindObjectOfType<Car>();
         DestroyObject(c.gameObject);
         var startBlock = level.staticBlocks.First(s => s.isStart);
-        var go = Instantiate(carPrefab, new Vector3(startBlock.x, startBlock.y + 1), Quaternion.identity);
+        var go = Instantiate(carPrefab, new Vector3(startBlock.x, startBlock.y + 0.41f), Quaternion.identity);
+        go.transform.SetParent(gameObject.transform, false);
         go.transform.Rotate(0, 270, 0);
         editPanel.SetActive(true);
+        actionPanel.SetActive(true);
     }
 
     #endregion
@@ -147,7 +167,15 @@ public class Main : MonoBehaviour {
     private void SetStartResetText()
     {
         var bt = GameObject.Find("StartReset").GetComponentInChildren<Text>();
-        bt.text = isEditing ? "Start" : "Reset";
+        if (isFinished)
+        {
+            bt.text = "Rerun";
+        }
+        else
+        {
+            bt.text = isEditing ? "Start" : "Reset";
+        }
+        
     }
 
     public void EditBlockSelected(GameObject go)
@@ -167,6 +195,7 @@ public class Main : MonoBehaviour {
 
             var eo = StreetBlockFactory.CreateStreetBlock(eb.type);
             var ed = eo.GameObject.GetComponent<Editable>();
+            eo.GameObject.transform.SetParent(gameObject.transform, false);
             ed.isEditing = true;
             ed.creator = this;
             currentEditing = ed;
@@ -181,7 +210,9 @@ public class Main : MonoBehaviour {
 
     public void ShowFinished()
     {
-        GameObject.Find("StartReset").SetActive(false);
+        isFinished = true;
+        SetStartResetText();
+        LevelLoader.SetAndSaveLevelDone(levelMeta);
         finishedMessage.SetActive(true);
     }
 }

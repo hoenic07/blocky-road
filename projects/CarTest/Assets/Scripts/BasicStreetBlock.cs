@@ -20,14 +20,14 @@ namespace Assets.Scripts
 
         public virtual void SnapLeft(float yOther, float rightOther)
         {
-            var x = rightOther - GameObject.transform.lossyScale.x / 2;
-            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
+            var x = rightOther - (Editable.blockSize / 2) * Main.globalScale;
+            GameObject.transform.position = new Vector3(x, yOther - 0.00001f, GameObject.transform.position.z);
         }
 
         public virtual void SnapRight(float yOther, float leftOther)
         {
-            var x = leftOther + GameObject.transform.lossyScale.x / 2;
-            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
+            var x = leftOther + (Editable.blockSize / 2)* Main.globalScale;
+            GameObject.transform.position = new Vector3(x, yOther-0.00001f, GameObject.transform.position.z);
         }
 
     }
@@ -41,14 +41,14 @@ namespace Assets.Scripts
 
         public override void SnapLeft(float yOther, float rightOther)
         {
-            var x = rightOther - GetReferenceForSnapping().lossyScale.x / 2;
-            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
+            var x = rightOther - (Editable.blockSize / 2) * Main.globalScale;
+            GameObject.transform.position = new Vector3(x, yOther - 0.00001f, GameObject.transform.position.z);
         }
 
         public override void SnapRight(float yOther, float leftOther)
         {
-            var x = leftOther + GetReferenceForSnapping().lossyScale.x / 2;
-            GameObject.transform.position = new Vector3(x, yOther, GameObject.transform.position.z);
+            var x = leftOther + (Editable.blockSize / 2) * Main.globalScale;
+            GameObject.transform.position = new Vector3(x, yOther - 0.00001f, GameObject.transform.position.z);
         }
     }
 }

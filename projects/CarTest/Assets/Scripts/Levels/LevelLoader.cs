@@ -9,16 +9,34 @@ namespace Assets.Scripts.Levels
 {
     public class LevelLoader
     {
-        private const string META_PATH = "Assets/Data/Levels.json";
-        private const string LEVEL_PATH = "Assets/Data/Levels/";
+        private const string META_PATH = "Data/LevelsMeta";
+        private const string LEVEL_PATH = "Data/Levels/";
+        private const string LEVELS_DONE_KEY = "LevelsDone";
 
 
         public static LevelMeta[] GetAllLevelMeta()
         {
             try
             {
-                var json = File.ReadAllText(META_PATH);
+                if (!PlayerPrefs.HasKey(LEVELS_DONE_KEY))
+                {
+                    PlayerPrefs.SetString(LEVELS_DONE_KEY, "");
+                    PlayerPrefs.Save();
+                }
+
+                var levelsDone = PlayerPrefs.GetString(LEVELS_DONE_KEY)
+                    .Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(d => int.Parse(d));
+
+                TextAsset bindata = Resources.Load(META_PATH) as TextAsset;
+                var json = bindata.text;
                 var lvlRoot = JsonUtility.FromJson<LevelRoot>(json);
+
+                foreach (var lvl in lvlRoot.levels)
+                {
+                    lvl.isDone = levelsDone.Contains(lvl.id);
+                }
+
                 return lvlRoot.levels;
             }
             catch(Exception ex)
@@ -32,7 +50,8 @@ namespace Assets.Scripts.Levels
         {
             try
             {
-                var json = File.ReadAllText(LEVEL_PATH + level.id + ".json");
+                TextAsset bindata = Resources.Load(LEVEL_PATH + level.id) as TextAsset;
+                var json = bindata.text;
                 return JsonUtility.FromJson<Level>(json);
             }
             catch(Exception ex)
@@ -42,5 +61,14 @@ namespace Assets.Scripts.Levels
             }
         }
 
+        public static void SetAndSaveLevelDone(LevelMeta level)
+        {
+            if (level.isDone) return;
+            level.isDone = true;
+            var levelsDone = PlayerPrefs.GetString(LEVELS_DONE_KEY);
+            var add = string.IsNullOrEmpty(levelsDone) ? level.id.ToString() : ("," + level.id);
+            PlayerPrefs.SetString(LEVELS_DONE_KEY, levelsDone + add);
+            PlayerPrefs.Save();
+        }
     }
 }

@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 
 public class Editable : MonoBehaviour
 {
-
+    public static float blockSize = 5f;
     public bool isEditable = true;
     public bool isEditing = false;
-    public float changePerPress = 0.2f;
+    private float changePerPress = 0.5f ;
     private float snapArea = 1f;
     public BasicStreetBlock editorObject;
 
@@ -79,8 +79,8 @@ public class Editable : MonoBehaviour
     public void TrySnap()
     {
         var t = editorObject.GetReferenceForSnapping();
-        var leftCur = t.position.x + t.lossyScale.x / 2;
-        var rightCur = t.position.x - t.lossyScale.x / 2;
+        var leftCur = t.position.x + (blockSize / 2)*Main.globalScale;
+        var rightCur = t.position.x - (blockSize / 2)*Main.globalScale;
         var y = t.position.y;
 
         Debug.Log("Try snap");
@@ -88,48 +88,55 @@ public class Editable : MonoBehaviour
         foreach (var eo in creator.streetBlocks)
         {
             var otherT = eo.GetReferenceForSnapping();
-            if (eo.GameObject == this) continue;
+            if (eo.GameObject == this.gameObject) continue;
 
-            var rightOther = otherT.position.x - otherT.lossyScale.x / 2;
-            var leftOther = otherT.position.x + otherT.lossyScale.x / 2;
+            var rightOther = otherT.position.x - (blockSize / 2) * Main.globalScale;
+            var leftOther = otherT.position.x + (blockSize / 2) * Main.globalScale;
             var yOther = otherT.position.y;
 
-            if (Mathf.Abs(rightOther - leftCur) <= snapArea && Mathf.Abs(yOther-y) <= snapArea)
+            if (Mathf.Abs(rightOther - leftCur) <= appliedSnapArea && Mathf.Abs(yOther-y) <= appliedSnapArea)
             {
                 editorObject.SnapLeft(yOther, rightOther);
-                Debug.Log("Snap!");
+                Debug.Log("Snap l!");
                 return;
             }
 
-            if (Mathf.Abs(leftOther - rightCur) <= snapArea && Mathf.Abs(yOther - y) <= snapArea)
+            if (Mathf.Abs(leftOther - rightCur) <= appliedSnapArea && Mathf.Abs(yOther - y) <= appliedSnapArea)
             {
                 editorObject.SnapRight(yOther, leftOther);
                 Debug.Log("Snap!");
                 return;
             }
-
         }
-
-        Debug.Log("nothing found");
     }
 
     public void Left()
     {
-        transform.position += new Vector3(changePerPress, 0, 0);
+        gameObject.transform.position += new Vector3(appliedChangePerPress, 0, 0);
     }
 
     public void Right()
     {
-        transform.position += new Vector3(-changePerPress, 0, 0);
+        transform.position += new Vector3(-appliedChangePerPress, 0, 0);
     }
 
     public void Up()
     {
-        transform.position += new Vector3(0, changePerPress);
+        transform.position += new Vector3(0, appliedChangePerPress);
     }
 
     public void Down()
     {
-        transform.position += new Vector3(0, -changePerPress);
+        transform.position += new Vector3(0, -appliedChangePerPress);
+    }
+
+    private float appliedChangePerPress
+    {
+        get { return changePerPress * Main.globalScale; }
+    }
+
+    private float appliedSnapArea
+    {
+       get { return snapArea * Main.globalScale; }
     }
 }

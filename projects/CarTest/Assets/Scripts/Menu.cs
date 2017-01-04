@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Menu : MonoBehaviour {
 
@@ -11,6 +12,8 @@ public class Menu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Main.globalScale = 1;
+        Physics.gravity = new Vector3(0, -9.81f, 0);
         var lvls = LevelLoader.GetAllLevelMeta();
         var parent = GameObject.Find("LevelPanel").transform;
         int i = 0;
@@ -18,10 +21,16 @@ public class Menu : MonoBehaviour {
         foreach (var lvl in lvls)
         {
             Debug.Log("lvl: " + lvl.id);
-            var go = Instantiate(levelButtonPrefab, new Vector3(i*240+580, -j*80+550), Quaternion.identity);
+            var go = Instantiate(levelButtonPrefab, new Vector3(i*180-200, -j*60+130), Quaternion.identity);
             go.GetComponent<LevelButton>().levelMeta = lvl;
-            go.GetComponentInChildren<Text>().text = lvl.name;
-            go.transform.SetParent(parent, true);
+            var txts = go.GetComponentsInChildren <Text>();
+            txts.First(d => d.name == "TextLevel").text = lvl.name;
+            if (!lvl.isDone)
+            {
+                Destroy(txts.First(d => d.name == "TextCheck"));
+            }
+           
+            go.transform.SetParent(parent, false);
             i++;
             if (i == 3)
             {

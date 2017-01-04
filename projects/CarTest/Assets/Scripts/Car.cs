@@ -19,10 +19,11 @@ public class Car : MonoBehaviour
     public void ApplyStartForce()
     {
         if (isStarted) return;
-        FindObjectOfType<AudioSource>().Play();
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponentInChildren<AudioSource>().Play();
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         Debug.Log("Force!");
-        rb.AddForce(new Vector3(-300, 0, 0));
+        rb.AddForce(new Vector3(-500* Main.globalScale, 0, 0));
         isStarted = true;
     }
 }

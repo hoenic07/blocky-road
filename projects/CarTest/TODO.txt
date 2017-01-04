@@ -11,10 +11,10 @@ TODO Augmented Reality
  + Remove button für elemente
  + Elemente auswählen
  - Elemente nicht überlappend
- - UI für Aktionen
+ + UI für Aktionen
  + Auswahlliste mit verbleibenden elementen 
 + Play
  + Detect finish
  + Reset button für Auto
-- Audio
-- Augmented Reality
++ Audio
++ Augmented Reality

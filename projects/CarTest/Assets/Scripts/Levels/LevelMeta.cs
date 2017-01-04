@@ -16,5 +16,6 @@ namespace Assets.Scripts.Levels
     {
         public int id;
         public string name;
+        public bool isDone; 
     }
 }
