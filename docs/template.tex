@@ -1,0 +1,340 @@
+% $Id: template.tex 11 2007-04-03 22:25:53Z jpeltier $
+
+\documentclass{vgtc}                          % final (conference style)
+%\documentclass[review]{vgtc}                 % review
+%\documentclass[widereview]{vgtc}             % wide-spaced review
+%\documentclass[preprint]{vgtc}               % preprint
+%\documentclass[electronic]{vgtc}             % electronic version
+
+%% Uncomment one of the lines above depending on where your paper is
+%% in the conference process. ``review'' and ``widereview'' are for review
+%% submission, ``preprint'' is for pre-publication, and the final version
+%% doesn't use a specific qualifier. Further, ``electronic'' includes
+%% hyperreferences for more convenient online viewing.
+
+%% Please use one of the ``review'' options in combination with the
+%% assigned online id (see below) ONLY if your paper uses a double blind
+%% review process. Some conferences, like IEEE Vis and InfoVis, have NOT
+%% in the past.
+
+%% Figures should be in CMYK or Grey scale format, otherwise, colour 
+%% shifting may occur during the printing process.
+
+%% These few lines make a distinction between latex and pdflatex calls and they
+%% bring in essential packages for graphics and font handling.
+%% Note that due to the \DeclareGraphicsExtensions{} call it is no longer necessary
+%% to provide the the path and extension of a graphics file:
+%% \includegraphics{diamondrule} is completely sufficient.
+%%
+\ifpdf%                                % if we use pdflatex
+  \pdfoutput=1\relax                   % create PDFs from pdfLaTeX
+  \pdfcompresslevel=9                  % PDF Compression
+  \pdfoptionpdfminorversion=7          % create PDF 1.7
+  \ExecuteOptions{pdftex}
+  \usepackage{graphicx}                % allow us to embed graphics files
+  \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg} % for pdflatex we expect .pdf, .png, or .jpg files
+\else%                                 % else we use pure latex
+  \ExecuteOptions{dvips}
+  \usepackage{graphicx}                % allow us to embed graphics files
+  \DeclareGraphicsExtensions{.eps}     % for pure latex we expect eps files
+\fi%
+
+%% it is recomended to use ``\autoref{sec:bla}'' instead of ``Fig.~\ref{sec:bla}''
+\graphicspath{{figures/}{pictures/}{images/}{./}} % where to search for the images
+
+\usepackage{microtype}                 % use micro-typography (slightly more compact, better to read)
+\PassOptionsToPackage{warn}{textcomp}  % to address font issues with \textrightarrow
+\usepackage{textcomp}                  % use better special symbols
+\usepackage{mathptmx}                  % use matching math font
+\usepackage{times}                     % we use Times as the main font
+\renewcommand*\ttdefault{txtt}         % a nicer typewriter font
+\usepackage{cite}                      % needed to automatically sort the references
+\usepackage{tabu}                      % only used for the table example
+\usepackage{booktabs}
+\usepackage{hyperref}                  % only used for the table example
+
+\usepackage{bera}% optional: just to have a nice mono-spaced font
+\usepackage{listings}
+\usepackage{xcolor}
+
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+
+\lstdefinelanguage{json}{
+	basicstyle=\normalfont\ttfamily,
+	numbers=left,
+	numberstyle=\scriptsize,
+	stepnumber=1,
+	numbersep=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	frame=lines,
+	backgroundcolor=\color{background},
+	literate=
+	*{0}{{{\color{numb}0}}}{1}
+	{1}{{{\color{numb}1}}}{1}
+	{2}{{{\color{numb}2}}}{1}
+	{3}{{{\color{numb}3}}}{1}
+	{4}{{{\color{numb}4}}}{1}
+	{5}{{{\color{numb}5}}}{1}
+	{6}{{{\color{numb}6}}}{1}
+	{7}{{{\color{numb}7}}}{1}
+	{8}{{{\color{numb}8}}}{1}
+	{9}{{{\color{numb}9}}}{1}
+	{:}{{{\color{punct}{:}}}}{1}
+	{,}{{{\color{punct}{,}}}}{1}
+	{\{}{{{\color{delim}{\{}}}}{1}
+	{\}}{{{\color{delim}{\}}}}}{1}
+	{[}{{{\color{delim}{[}}}}{1}
+	{]}{{{\color{delim}{]}}}}{1},
+}
+
+
+
+%% We encourage the use of mathptmx for consistent usage of times font
+%% throughout the proceedings. However, if you encounter conflicts
+%% with other math-related packages, you may want to disable it.
+
+
+%% If you are submitting a paper to a conference for review with a double
+%% blind reviewing process, please replace the value ``0'' below with your
+%% OnlineID. Otherwise, you may safely leave it at ``0''.
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+
+%% In preprint mode you may define your own headline.
+%\preprinttext{To appear in an IEEE VGTC sponsored conference.}
+
+%% Paper title.
+
+\title{Blocky Road}
+
+%% This is how authors are specified in the conference style
+
+%% Author and Affiliation (single author).
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com}}
+%%\affiliation{\scriptsize Allied Widgets Research}
+
+%% Author and Affiliation (multiple authors with single affiliations).
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com} %
+%%\and Ed Grimley\thanks{e-mail:ed.grimley@aol.com} %
+%%\and Martha Stewart\thanks{e-mail:martha.stewart@marthastewart.com}}
+%%\affiliation{\scriptsize Martha Stewart Enterprises \\ Microsoft Research}
+
+%% Author and Affiliation (multiple authors with multiple affiliations)
+\author{Niklas Hoesl\thanks{e-mail: niklas.hoesl@students.fh-hagenberg.at}\\ %
+        \scriptsize University of Applied Sciences Hagenberg, \\\scriptsize Austria}
+
+%% A teaser figure can be included as follows, but is not recommended since
+%% the space is now taken up by a full width abstract.
+%\teaser{
+%  \includegraphics[width=1.5in]{sample.eps}
+%  \caption{Lookit! Lookit!}
+%}
+
+%% Abstract section.
+%\abstract{%
+%} % end of abstract
+
+%% ACM Computing Classification System (CCS). 
+%% See <http://www.acm.org/class/1998/> for details.
+%% The ``\CCScat'' command takes four arguments.
+
+
+%% Copyright space is enabled by default as required by guidelines.
+%% It is disabled by the 'review' option or via the following command:
+% \nocopyrightspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%% The ``\maketitle'' command must be the first command after the
+%% ``\begin{document}'' command. It prepares and prints the title block.
+
+%% the only exception to this rule is the \firstsection command
+
+\maketitle
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=1.5in]{logo}
+	\caption{The logo of the game}
+	\label{fig:logo}
+\end{figure}
+
+\section{About The game}
+Blocky Road is an Augmented Reality based construction game, where the player has to construct a road out of given blocks to let a car drive from the start to the finish block.\\
+When the player thinks the car may pass the finish line, he can start the race and see what happens. If it makes it to the finish block (the block with the two pylons) the level is completed. Otherwise the player can adapt constructed blocks and try the race again until he makes it to the finish line.\\
+Due to Augmented Reality the player can watch the race and build the road from any direction, which makes it way easier to build a finishing road.\\
+The game currently features 6 levels and the player will find out quickly that the blocks do not always have to be aligned in a perfect realistic way: They can also overlap or can be aligned to let the car crash into a block to change its direction. The player has to use all of his creativity to pass a level. \\
+
+The game was created as a project during the lecture \textit{Augmented Reality} by Christoph Anthes as part of the \textit{Mobile Computing} master's degree program at the University of Applied Sciences Hagenberg, Austria during the semester 2016/17. 
+
+\section{Requirements}
+The game requires minimum Android 2.3 and a device with a camera. For Augmented Reality purposes a printed version of the \textit{Vuforia Chips} image is needed. It can downloaded here: \url{https://developer.vuforia.com/sites/default/files/sample-apps/targets/imagetargets_targets.pdf}
+
+\section{States} 
+ 
+The game mainly consists of four states. They and their transitions are visualized in figure~\ref{fig:states}. In the following section they will be described in detail:
+ 
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=\columnwidth]{states}
+	\caption{States of the game}
+	\label{fig:states}
+\end{figure} 
+ 
+\subsection{Menu}
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=\columnwidth]{menu}
+	\caption{Menu and entry screen}
+	\label{fig:menu}
+\end{figure}
+
+Figure~\ref{fig:menu} shows the menu, which is the first screen that appears after starting the game. The player gets all levels displayed, where each level that is completed shows a check mark. The player can start any level or exit the game. By selecting a level the car on the bottom starts and the level will be loaded.\\
+In every other state a \textit{Back} button lets the player return to the menu.
+
+\subsection{Edit}
+
+The edit state (see figure~\ref{fig:edit}) is the state where the player builds and adapts the blocks.\\
+The Vuforia image marker needs to be placed in front of the camera, so that the static blocks will be displayed.\\
+On the right part the blocks that can be built including the number of remaining blocks are displayed. By pressing on one of the remaining blocks it will be added to the road. The bottom part of the screen shows the possible actions that can be applied to the currently selected block. The player can move the block to the left (<), the right (>), up (+) or down (-). When a block is near to another block the player can snap the block to the end of the other block, to build a continuous road.\\
+Tapping on an editable block will change the currently selected block, which applies all further actions to the tapped block.\\
+If the player is not happy with a block he can choose to remove the block by selecting the \textit{Remove Block} button. The next tapped block will then be removed.\\
+Pressing the start button will hide all edit features and the game switches to the run mode.
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=\columnwidth]{edit}
+	\caption{Edit: The player tries to align the blocks in a way, so that the car can reach the finish line.}
+	\label{fig:edit}
+\end{figure}
+
+\subsection{Run}
+The car will be accelerated initially when the race is started. It will now move over the built blocks and tries to make its way to the finish line.\\
+When the player sees that the car will not make it to the finish line he can press the \textit{Reset} button to get back to the edit mode.
+
+\subsection{Finished Run}
+When the car enters the finish line the level is completed. In this state the player can't modify the built blocks anyone. It is still possible to restart the race to watch the car racing again (see figure~\ref{fig:run}). When going back to the menu the completed level will display a check mark.
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=\columnwidth]{run}
+	\caption{A run: The car is trying to get to the finish block}
+	\label{fig:run}
+\end{figure}
+
+\section{Block types}
+These four different types of blocks are available:
+\paragraph{Street}
+A normal street block that lets the car drive over it. Is usually also used as the start block.
+
+\paragraph{Speed}
+Like the street block, but accelerates the car every time it drives over the block. This block is visualized by three red arrows.
+
+\paragraph{Jump}
+This block lets the car jump over an obstacle or the ground. It is indicated by a wooden jump on a street block.
+
+\paragraph{Finish}
+This block is indicated by a street block with a crosswalk and two pylons. When the car makes its way through the pylons (either on the ground or in the air) the level is finished.
+Usually this is only used as a static block.
+
+\section{Level Specification}
+All levels are mentioned in the \textit{LevelsMeta.json} file, which has the following JSON structure:
+
+\begin{lstlisting}[language=json,firstnumber=1]
+{
+  "levels": [
+    {
+      "id": 1,
+      "name": "Level 1"
+    }
+  ]
+}
+\end{lstlisting}
+
+Further the \textit{Id} defines the file that represents the actual structure of the level:
+
+\begin{lstlisting}[language=json,firstnumber=1]
+{
+  // Blocks that can be placed and edited
+  "editorBlocks": [
+    {
+      "count": 2, // number of blocks of this type that can be built in this level
+      "type": 3 // Speed Block
+    },
+    {
+      "count": 1,
+      "type": 2 // Jump Block
+    },
+    {
+      "count": 1,
+      "type": 1 // Street Block
+    }
+  ],
+  // Blocks that are in the level from the beginning and can't be edited.
+  "staticBlocks": [
+    {
+      "isStart": true, // Here the car should be placed
+      "type": 1, 
+      "x": 6, // Horizontal position
+      "y": 10 // Vertical position
+    },
+    {
+      "type": 1,
+      "x": -5,
+      "y": 10,
+      "rotation":90 // Static blocks can be rotated, e.g. to form a wall
+    },
+    {
+      "type": 4, // Finish Block
+      "x": -20,
+      "y": 10
+    }
+  ]
+}
+\end{lstlisting}
+
+
+
+\section{Used Resources}
+The following tools and resources where used to develop the game. Special thanks to all the contributors!
+\begin{itemize}
+	\item Unity: Game Development Platform
+	\item Vuforia: Augmented Reality Platform
+	\item Sounds:
+		\begin{itemize}
+			\item Carstartgarage~\footnote{\url{https://www.freesoundeffects.com/free-track/carstartgarage-466329/}}: When starting a run or going over a speed-up block (edited)
+			\item Cheer~\footnote{\url{https://www.freesoundeffects.com/free-track/cheer-426824/}}: When reaching the finish block.
+			\item Cool Game Theme Loop~\footnote{\url{http://www.freesound.org/people/Mrthenoronha/sounds/371148/}}: Background Music
+		\end{itemize}
+	\item From Unity Asset Store:
+		\begin{itemize}
+			\item Cartoon Car - Free~\footnote{\url{https://www.assetstore.unity3d.com/en/!\#/content/38743}}: The racing car
+			\item Simple Modular Street Kit~\footnote{\url{https://www.assetstore.unity3d.com/en/\#!/content/13811}}: Used for every street block
+			\item Dark Wood Texture~\footnote{\url{https://www.assetstore.unity3d.com/en/\#!/content/11092}}: Used for the jump
+		\end{itemize}
+\end{itemize}
+
+\section{Technical difficulties}
+First the game was implemented without Augmented Reality as normal Unity game. After adding Vuforia the whole world was displayed way to big (166 times, to be precise). The solution was to scale the image target down to 0.006, which brought up further problems: Applied forces, the gravity, thresholds for snapping and delta values for moving a block also needed an adaption, which took a long time to figure out the actual reason.\\
+
+
+Compound game objects (like the Jump block that consists of a street game object and two jump game objects) had a different scale than a single game object (e.g. street block) (1,1,1 vs 5,0.5,5) although they actually had the same size. The solution was a static block size. \\
+
+
+A smaller image target was tried (a business card with a QR code), but due to the low resolution of the web cam of the developer machine it was often not recognized. Therefore the Vuforia chips image target is still used in the final version.
+
+\end{document}
