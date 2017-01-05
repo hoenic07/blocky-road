@@ -1,0 +1,21 @@
+{
+    "editorBlocks": [
+        {
+            "count": 1,
+            "type": 1
+        }
+    ],
+    "staticBlocks": [
+        {
+            "isStart": true,
+            "type": 1,
+            "x": 6,
+            "y": 20
+        },
+        {
+            "type": 4,
+            "x": -30,
+            "y": 0
+        }
+    ]
+}

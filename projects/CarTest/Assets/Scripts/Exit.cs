@@ -7,7 +7,7 @@ public class Exit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.GetComponent<Button>().onClick.AddListener(() =>
+        gameObject.GetComponent<Button>().onClick.AddListener(() =>
         {
             Application.Quit();
         });

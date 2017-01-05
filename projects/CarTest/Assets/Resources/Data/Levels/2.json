@@ -1,0 +1,29 @@
+{
+    "editorBlocks": [
+        {
+            "count": 2,
+            "type": 3
+        },
+        {
+            "count": 2,
+            "type": 2
+        },
+        {
+            "count": 1,
+            "type": 1
+        }
+    ],
+    "staticBlocks": [
+        {
+            "isStart": true,
+            "type": 1,
+            "x": 6,
+            "y": 0
+        },
+        {
+            "type": 4,
+            "x": -40,
+            "y": 6
+        }
+    ]
+}

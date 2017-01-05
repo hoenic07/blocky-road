@@ -9,7 +9,7 @@ public class Editable : MonoBehaviour
     public static float blockSize = 5f;
     public bool isEditable = true;
     public bool isEditing = false;
-    private float changePerPress = 0.5f ;
+    private float changePerPress = 0.25f ;
     private float snapArea = 1f;
     public BasicStreetBlock editorObject;
 
@@ -25,23 +25,23 @@ public class Editable : MonoBehaviour
 	void Update () {
         if (isEditing)
         {
-            if (Input.GetKeyUp(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.LeftArrow))
             {
                 Left();
             }
-            if (Input.GetKeyUp(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.RightArrow))
             {
                 Right();
             }
-            if (Input.GetKeyUp(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow))
             {
                 Up();
             }
-            if (Input.GetKeyUp(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.DownArrow))
             {
                 Down();
             }
-            if (Input.GetKeyUp(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Z))
             {
                 TrySnap();
             }            

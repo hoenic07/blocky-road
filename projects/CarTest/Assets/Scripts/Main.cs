@@ -66,6 +66,7 @@ public class Main : MonoBehaviour {
             var prefab = StreetBlockFactory.LoadPrefabByType(block.type);
             var go = Instantiate(prefab, new Vector3(block.x, block.y), Quaternion.identity);
             go.transform.SetParent(gameObject.transform, false);
+            go.transform.Rotate(0, 0, block.rotation);
             var ed = go.GetComponentInChildren<Editable>();
             if(ed) ed.isEditable = false;
             if (block.isStart)

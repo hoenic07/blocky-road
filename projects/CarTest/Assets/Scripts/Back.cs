@@ -11,7 +11,7 @@ public class Back : MonoBehaviour
 
     // Use this for initialization
     void Start () {
-        GetComponent<Button>().onClick.AddListener(() =>
+        gameObject.GetComponent<Button>().onClick.AddListener(() =>
         {
             SceneManager.LoadScene("Menu");
         });

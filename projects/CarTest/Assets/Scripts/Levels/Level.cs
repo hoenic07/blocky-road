@@ -20,6 +20,7 @@ namespace Assets.Scripts.Levels
         public BlockType type;
         public int x;
         public int y;
+        public int rotation;
         public bool isStart;
     }
 
